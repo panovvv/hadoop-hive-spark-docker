@@ -1,4 +1,5 @@
-FROM alpine:3.11.3
+# Alpine 3.11 contains Python 3.8, pyspark only supports Python up to 3.7
+FROM alpine:3.10.4
 
 # curl and unzip: download and extract Hive, Hadoop, Spark etc.
 # bash: Hadoop is not compatible with Alpine's `ash` shell
@@ -8,20 +9,20 @@ FROM alpine:3.11.3
 # findutils: Spark needs GNU `find` to run jobs (weird but true)
 # ncurses: so that you can run `yarn top`
 RUN apk add --no-cache \
-    curl=7.67.0-r0 \
+    curl=7.66.0-r0 \
     unzip=6.0-r4 \
     openjdk8=8.242.08-r0 \
-    bash=5.0.11-r1 \
+    bash=5.0.0-r0 \
     coreutils=8.31-r0 \
-    procps=3.3.16-r0 \
-    findutils=4.7.0-r0 \
-    ncurses=6.1_p20191130-r0
+    procps=3.3.15-r0 \
+    findutils=4.6.0-r1 \
+    ncurses=6.1_p20190518-r0
 
 # https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Hadoop
-ARG HADOOP_VERSION=3.2.0
+ENV HADOOP_VERSION=3.2.0
 ENV HADOOP_HOME /usr/hadoop
 RUN curl --progress-bar -L --retry 3 \
   "http://archive.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz" \
@@ -32,7 +33,7 @@ RUN curl --progress-bar -L --retry 3 \
  && chown -R root:root ${HADOOP_HOME}
 
 # Hive
-ARG HIVE_VERSION=3.1.2
+ENV HIVE_VERSION=3.1.2
 ENV HIVE_HOME=/usr/hive
 ENV HIVE_CONF_DIR=${HIVE_HOME}/conf
 ENV PATH ${PATH}:${HIVE_HOME}/bin
@@ -50,7 +51,7 @@ RUN curl --progress-bar -L \
   && chmod 777 ${HIVE_HOME}/var/log
 
 # Spark
-ARG SPARK_VERSION=2.4.4
+ENV SPARK_VERSION=2.4.4
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
 ENV SPARK_HOME /usr/spark
 RUN curl --progress-bar -L --retry 3 \
@@ -70,16 +71,16 @@ RUN curl --progress-bar -L \
 
 # PySpark - comment out if you don't want it in order to save image space
 RUN apk add --no-cache \
-    python3=3.8.1-r0 \
-    python3-dev=3.8.1-r0 \
+    python3=3.7.5-r1 \
+    python3-dev=3.7.5-r1 \
  && ln -s /usr/bin/python3 /usr/bin/python
 
 # SparkR - comment out if you don't want it in order to save image space
 RUN apk add --no-cache \
-    R=3.6.2-r0 \
-    R-dev=3.6.2-r0 \
-    libc-dev=0.7.2-r0 \
-    g++=9.2.0-r3 \
+    R=3.6.0-r1 \
+    R-dev=3.6.0-r1 \
+    libc-dev=0.7.1-r0 \
+    g++=8.3.0-r0 \
  && R -e 'install.packages("knitr", repos = "http://cran.us.r-project.org")'
 
 # Common settings

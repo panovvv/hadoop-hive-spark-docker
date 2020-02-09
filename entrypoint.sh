@@ -6,7 +6,7 @@ if [ ! -z "${HADOOP_DATANODE_UI_PORT}" ]; then
   sed -i "$ i\<property><name>dfs.datanode.http.address</name><value>0.0.0.0:${HADOOP_DATANODE_UI_PORT}</value></property>" ${HADOOP_CONF_DIR}/hdfs-site.xml
 fi
 if [ "${HADOOP_NODE}" == "namenode" ]; then
-  hdfs namenode -format
+  yes | hdfs namenode -format
   hdfs --daemon start namenode
   hdfs --daemon start secondarynamenode
   yarn --daemon start resourcemanager
