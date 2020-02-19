@@ -50,7 +50,7 @@ backend for SparkSQL. Alternatively you can try to downgrade Hive :)
 
 ## Maintaining
 
-* Docker file code linting:  `run --rm -i hadolint/hadolint < Dockerfile`
+* Docker file code linting:  `docker run --rm -i hadolint/hadolint < Dockerfile`
 * [To trim the fat from Docker image](https://github.com/wagoodman/dive)
 
 ## TODO
