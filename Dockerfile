@@ -9,14 +9,14 @@ FROM alpine:3.10.4
 # findutils: Spark needs GNU `find` to run jobs (weird but true)
 # ncurses: so that you can run `yarn top`
 RUN apk add --no-cache \
-    curl=7.66.0-r0 \
-    unzip=6.0-r4 \
-    openjdk8=8.242.08-r0 \
-    bash=5.0.0-r0 \
-    coreutils=8.31-r0 \
-    procps=3.3.15-r0 \
-    findutils=4.6.0-r1 \
-    ncurses=6.1_p20190518-r0
+    'curl=~7.66' \
+    'unzip=~6.0' \
+    'openjdk8=~8.242' \
+    'bash=~5.0' \
+    'coreutils=~8.31' \
+    'procps=~3.3' \
+    'findutils=~4.6' \
+    'ncurses=~6.1'
 
 # https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -50,7 +50,7 @@ RUN curl --progress-bar -L \
   && chmod 777 "${HIVE_HOME}/var/log"
 
 # Spark
-ENV SPARK_VERSION=2.4.4
+ENV SPARK_VERSION=2.4.5
 ENV SPARK_PACKAGE "spark-${SPARK_VERSION}-bin-without-hadoop"
 ENV SPARK_HOME /usr/spark
 RUN curl --progress-bar -L --retry 3 \
@@ -69,16 +69,16 @@ RUN curl --progress-bar -L \
 
 # PySpark - comment out if you don't want it in order to save image space
 RUN apk add --no-cache \
-    python3=3.7.5-r1 \
-    python3-dev=3.7.5-r1 \
+    'python3=~3.7' \
+    'python3-dev=~3.7' \
  && ln -s /usr/bin/python3 /usr/bin/python
 
 # SparkR - comment out if you don't want it in order to save image space
 RUN apk add --no-cache \
-    R=3.6.0-r1 \
-    R-dev=3.6.0-r1 \
-    libc-dev=0.7.1-r0 \
-    g++=8.3.0-r0 \
+    'R=~3.6' \
+    'R-dev=~3.6' \
+    'libc-dev=~0.7' \
+    'g++=~8.3' \
  && R -e 'install.packages("knitr", repos = "http://cran.us.r-project.org")'
 
 # Common settings
@@ -148,7 +148,7 @@ HEALTHCHECK CMD curl -f http://host.docker.internal:8080/ \
 
 # Multitail for logging
 COPY scripts/ /scripts
-RUN apk add --no-cache linux-headers=4.19.36-r0 \
+RUN apk add --no-cache 'linux-headers=~4.19' \
  && gcc /scripts/watchdir.c -o /scripts/watchdir \
  && chmod +x /scripts/parallel_commands.sh
 
