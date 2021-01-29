@@ -11,12 +11,13 @@ FROM alpine:3.10.4
 RUN apk add --no-cache \
     'curl=~7.66' \
     'unzip=~6.0' \
-    'openjdk8=~8.242' \
+    'openjdk8=~8' \
     'bash=~5.0' \
     'coreutils=~8.31' \
     'procps=~3.3' \
     'findutils=~4.6' \
-    'ncurses=~6.1'
+    'ncurses=~6.1' \
+    'g++=~8.3'
 
 # https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -78,7 +79,6 @@ RUN apk add --no-cache \
     'R=~3.6' \
     'R-dev=~3.6' \
     'libc-dev=~0.7' \
-    'g++=~8.3' \
  && R -e 'install.packages("knitr", repos = "http://cran.us.r-project.org")'
 
 # Common settings
