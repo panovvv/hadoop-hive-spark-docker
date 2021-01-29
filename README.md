@@ -6,9 +6,6 @@
 
 Base Docker image with just essentials: Hadoop, Hive and Spark.
 
-Take a look [at this repo](https://github.com/panovvv/bigdata-docker-compose)
-to see how I use it as a part of a Docker Compose cluster.
-
 ## Software
 
 * [Hadoop 3.2.0](http://hadoop.apache.org/docs/r3.2.0/) in Fully Distributed (Multi-node) Mode
@@ -19,21 +16,13 @@ to see how I use it as a part of a Docker Compose cluster.
 
 ## Usage
 
-You should dedicate more RAM to Docker than what it had by default
-(2Gb on my machine with 16Gb RAM). Otherwise applications (ResourceManager in my case)
-will quit sporadically and you'll see messages like this one in logs:
-<pre>
-current-datetime INFO org.apache.hadoop.util.JvmPauseMonitor: Detected pause in JVM or host machine (eg GC): pause of approximately 1234ms
-No GCs detected
-</pre>
-Increasing memory to 8G solved all those mysterious problems for me.
-
+Take a look [at this repo](https://github.com/panovvv/bigdata-docker-compose)
+to see how I use it as a part of a Docker Compose cluster.
 
 Hive JDBC port is exposed to host:
 * URI: `jdbc:hive2://localhost:10000`
 * Driver: `org.apache.hive.jdbc.HiveDriver` (org.apache.hive:hive-jdbc:3.1.2)
 * User and password: unused.
-
 
 ## Version compatibility notes
 * Hadoop 3.2.1 and Hive 3.1.2 are incompatible due to Guava version
