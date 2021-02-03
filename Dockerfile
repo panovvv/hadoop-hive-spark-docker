@@ -17,7 +17,9 @@ RUN apk add --no-cache \
     'procps=~3.3' \
     'findutils=~4.6' \
     'ncurses=~6.1' \
-    'g++=~8.3'
+    'g++=~8.3' \
+    'libc6-compat=~1.1' \
+    && ln -s /lib64/ld-linux-x86-64.so.2 /lib/ld-linux-x86-64.so.2
 
 # https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
