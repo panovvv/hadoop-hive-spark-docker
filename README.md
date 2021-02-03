@@ -12,7 +12,7 @@ Base Docker image with just essentials: Hadoop, Hive and Spark.
 
 * [Hive 3.1.2](http://hive.apache.org/) with HiveServer2 exposed to host.
 
-* [Spark 2.4.4](https://spark.apache.org/docs/2.4.4/) in YARN mode (Spark Scala, PySpark and SparkR)
+* [Spark 2.4.5](https://spark.apache.org/docs/2.4.5/) in YARN mode (Spark Scala, PySpark and SparkR)
 
 ## Usage
 
